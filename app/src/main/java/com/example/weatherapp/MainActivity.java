@@ -38,7 +38,9 @@ public class MainActivity extends AppCompatActivity {
     public void onClickShowWeather(View view){
         String city = editTextCity.getText().toString().trim();
         if (!city.isEmpty()) {
-
+            DownloadWeatherTask task = new DownloadWeatherTask();
+            String url = String.format(WEATHER_URL, city);
+            task.execute(url);
         }
     }
 
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(s);
                 String city = jsonObject.getString("name");
                 String temp = jsonObject.getJSONObject("main").getString("temp");
-                String description = jsonObject.getJSONArray("weather").getJSONArray(0).getString("description");
+                String description = jsonObject.getJSONArray("weather").getJSONArray(0).getString(Integer.parseInt("description"));
                 String weather = String.format("%s\nТемпература: %s\nНа улице: %s", city, temp, description);
                 textViewWeather.setText(weather);
             } catch (JSONException e) {
