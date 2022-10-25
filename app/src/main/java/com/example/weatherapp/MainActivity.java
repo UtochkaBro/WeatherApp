@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -32,7 +33,13 @@ public class MainActivity extends AppCompatActivity {
 
         editTextCity = findViewById(R.id.editTextCity);
         textViewWeather = findViewById(R.id.textViewWeather);
+    }
 
+    public void onClickShowWeather(View view){
+        String city = editTextCity.getText().toString().trim();
+        if (!city.isEmpty()) {
+
+        }
     }
 
     private class DownloadWeatherTask extends AsyncTask<String, Void,String>{
@@ -73,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(s);
                 String city = jsonObject.getString("name");
                 String temp = jsonObject.getJSONObject("main").getString("temp");
+                String description = jsonObject.getJSONArray("weather").getJSONArray(0).getString("description");
+                String weather = String.format("%s\nТемпература: %s\nНа улице: %s", city, temp, description);
+                textViewWeather.setText(weather);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
